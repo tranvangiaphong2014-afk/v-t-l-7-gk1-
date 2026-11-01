@@ -1,3 +1,15 @@
+Để sửa file trực tiếp trên GitHub mà không cần phải xóa đi tải lại từ đầu, bạn chỉ cần làm theo vài bước cực kỳ nhanh gọn sau đây:
+
+1. **Mở file cần sửa:** Trên trang repository của bạn trên GitHub, hãy bấm vào file **`index.html`** có sẵn trong danh sách.
+2. **Bật chế độ chỉnh sửa:** Ở góc trên bên phải của khung hiển thị nội dung file (nằm ngay phía trên đoạn code), bạn sẽ thấy biểu tượng **hình chiếc bút chì** (có chú thích là *Edit this file* khi rê chuột vào). Hãy bấm vào đó.
+3. **Dán code mới:** Toàn bộ khung code sẽ mở ra cho bạn sửa. Bạn có thể xóa hết code cũ bên trong đi, sau đó copy toàn bộ đoạn mã **`index.html`** hoàn chỉnh dưới đây dán vào.
+4. **Lưu lại:** Kéo xuống dưới cùng trang, bấm nút màu xanh lá cây **`Commit changes...`**, rồi bấm tiếp nút **`Commit changes`** xác nhận ở bảng nhỏ hiện lên là xong!
+
+---
+
+### Dưới đây là toàn bộ mã nguồn `index.html` hoàn chỉnh (đã cập nhật chống thoát toàn màn hình/Esc/F11 và sửa chuẩn đáp án):
+
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -58,7 +70,7 @@
 </head>
 <body>
 
-    <!-- ĐỒNG HỒ ĐẾM NGƯỜC -->
+    <!-- ĐỒNG HỒ ĐẾM NGƯỢC -->
     <div id="timer-bar">Thời gian làm bài còn lại: <span id="time-left">75:00</span></div>
 
     <div class="container">
@@ -67,7 +79,7 @@
         <div id="welcome-screen">
             <h1>ĐỀ KIỂM TRA GIỮA KÌ I - MÔN KHTN 7</h1>
             <p><strong>Phần Vật lý | Thời gian: 75 phút</strong><br>Cấu trúc: 10 Trắc nghiệm nhiều lựa chọn (4,0đ) | 1 Trắc nghiệm Đúng/Sai (1,0đ) | 2 Tự luận nâng cao (5,0đ)</p>
-            <p style="color: #d93025; font-size: 13px; font-weight: 500;">⚠️ Lưu ý: Khi bấm Bắt đầu, hệ thống sẽ bật Toàn màn hình. Nếu thoát Fullscreen hoặc chuyển Tab sẽ bị CẢNH BÁO. Vi phạm 2 lần bài thi tự động NỘP!</p>
+            <p style="color: #d93025; font-size: 13px; font-weight: 500;">⚠️ Lưu ý: Khi bấm Bắt đầu, hệ thống bắt buộc chạy Toàn màn hình. Nếu chuyển tab hoặc thoát toàn màn hình (ấn Esc/F11) sẽ bị tính vi phạm quy chế!</p>
             <button class="btn-start" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
         </div>
 
@@ -144,32 +156,32 @@
             <div class="question-box">
                 <div class="question-title">Câu 6: Một vận động viên chạy cự ly 100m trong thời gian 10 giây. Tốc độ của vận động viên đó là:</div>
                 <div class="options-grid">
-                    <label class="option-label"><input type="radio" name="q6" value="A"> A. 10 m/s</label>
-                    <label class="option-label"><input type="radio" name="q6" value="B"> B. 1 m/s</label>
-                    <label class="option-label"><input type="radio" name="q6" value="C"> C. 1000 m/s</label>
-                    <label class="option-label"><input type="radio" name="q6" value="D"> D. 36 m/s</label>
+                    <label class="option-label"><input type="radio" name="q6" value="A"> A. $10\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q6" value="B"> B. $1\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q6" value="C"> C. $1000\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q6" value="D"> D. $36\text{ m/s}$</label>
                 </div>
             </div>
 
             <!-- Câu 7 -->
             <div class="question-box">
-                <div class="question-title">Câu 7: Đổi tốc độ 72 km/h ra đơn vị mét trên giây (m/s) ta được kết quả là:</div>
+                <div class="question-title">Câu 7: Đổi tốc độ $72\text{ km/h}$ ra đơn vị mét trên giây ($\text{m/s}$) ta được kết quả là:</div>
                 <div class="options-grid">
-                    <label class="option-label"><input type="radio" name="q7" value="A"> A. 15 m/s</label>
-                    <label class="option-label"><input type="radio" name="q7" value="B"> B. 20 m/s</label>
-                    <label class="option-label"><input type="radio" name="q7" value="C"> C. 25 m/s</label>
-                    <label class="option-label"><input type="radio" name="q7" value="D"> D. 30 m/s</label>
+                    <label class="option-label"><input type="radio" name="q7" value="A"> A. $15\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q7" value="B"> B. $20\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q7" value="C"> C. $25\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q7" value="D"> D. $30\text{ m/s}$</label>
                 </div>
             </div>
 
             <!-- Câu 8 -->
             <div class="question-box">
-                <div class="question-title">Câu 8: Trên một cung đường cao tốc có biển báo tốc độ tối đa 120 km/h và tối thiểu 60 km/h. Xe nào sau đây vi phạm quy định?</div>
+                <div class="question-title">Câu 8: Trên một cung đường cao tốc có biển báo tốc độ tối đa $120\text{ km/h}$ và tối thiểu $60\text{ km/h}$. Xe nào sau đây vi phạm quy định?</div>
                 <div class="options-grid">
-                    <label class="option-label"><input type="radio" name="q8" value="A"> A. Xe chạy với tốc độ 55 km/h</label>
-                    <label class="option-label"><input type="radio" name="q8" value="B"> B. Xe chạy với tốc độ 80 km/h</label>
-                    <label class="option-label"><input type="radio" name="q8" value="C"> C. Xe chạy với tốc độ 100 km/h</label>
-                    <label class="option-label"><input type="radio" name="q8" value="D"> D. Xe chạy với tốc độ 115 km/h</label>
+                    <label class="option-label"><input type="radio" name="q8" value="A"> A. Xe chạy với tốc độ $55\text{ km/h}$</label>
+                    <label class="option-label"><input type="radio" name="q8" value="B"> B. Xe chạy với tốc độ $80\text{ km/h}$</label>
+                    <label class="option-label"><input type="radio" name="q8" value="C"> C. Xe chạy với tốc độ $100\text{ km/h}$</label>
+                    <label class="option-label"><input type="radio" name="q8" value="D"> D. Xe chạy với tốc độ $115\text{ km/h}$</label>
                 </div>
             </div>
 
@@ -186,11 +198,11 @@
 
             <!-- Câu 10 -->
             <div class="question-box">
-                <div class="question-title">Câu 10: Đồ thị quãng đường - thời gian (s-t) của một vật chuyển động thẳng đều có dạng là:</div>
+                <div class="question-title">Câu 10: Đồ thị quãng đường - thời gian ($s-t$) của một vật chuyển động thẳng đều có dạng là:</div>
                 <div class="options-grid">
                     <label class="option-label"><input type="radio" name="q10" value="A"> A. Một đường cong bất kỳ.</label>
                     <label class="option-label"><input type="radio" name="q10" value="B"> B. Một đường thẳng đi qua gốc tọa độ.</label>
-                    <label class="option-label"><input type="radio" name="q10" value="C"> C. Một đường thẳng song song với trục thời gian t.</label>
+                    <label class="option-label"><input type="radio" name="q10" value="C"> C. Một đường thẳng song song với trục thời gian $t$.</label>
                     <label class="option-label"><input type="radio" name="q10" value="D"> D. Một đường hình sin.</label>
                 </div>
             </div>
@@ -236,14 +248,14 @@
             <!-- Bài 1 -->
             <div class="question-box">
                 <div class="question-title">Bài 1 (2,5 điểm):</div>
-                <p>Một học sinh đi xe đạp từ nhà đến trường trên quãng đường dài 4,5 km. Dự kiến ban đầu bạn đó đi với tốc độ không đổi 12 km/h. Tuy nhiên, đi được 1/3 quãng đường thì chợt nhớ mình để quên cặp tài liệu ở nhà, nên bạn đó phải lập tức quay về nhà lấy rồi đi lại đến trường với tốc độ lớn hơn để kịp giờ. Biết thời gian lúc quay về và chuẩn bị mất tổng cộng 10 phút. Hỏi trên quãng đường từ nhà quay lại trường lần sau, bạn đó phải đi với tốc độ bao nhiêu để đến trường vừa đúng thời gian dự kiến ban đầu?</p>
+                <p>Một học sinh đi xe đạp từ nhà đến trường trên quãng đường dài $4,5\text{ km}$. Dự kiến ban đầu bạn đó đi với tốc độ không đổi $12\text{ km/h}$. Tuy nhiên, đi được $\frac{1}{3}$ quãng đường thì chợt nhớ mình để quên cặp tài liệu ở nhà, nên bạn đó phải lập tức quay về nhà lấy rồi đi lại đến trường với tốc độ lớn hơn để kịp giờ. Biết thời gian lúc quay về và chuẩn bị mất tổng cộng $10\text{ phút}$. Hỏi trên quãng đường từ nhà quay lại trường lần sau, bạn đó phải đi với tốc độ bao nhiêu để đến trường vừa đúng thời gian dự kiến ban đầu?</p>
                 <textarea id="tl1" placeholder="Trình bày bài giải chi tiết tại đây..."></textarea>
             </div>
 
             <!-- Bài 2 -->
             <div class="question-box">
                 <div class="question-title">Bài 2 (2,5 điểm):</div>
-                <p>Lúc 6 giờ 00 phút sáng, xe ô tô thứ nhất xuất phát từ địa điểm A đi về địa điểm B cách nhau 140 km với tốc độ chuyển động thẳng đều 40 km/h. Đi được 1 giờ thì ô tô dừng lại nghỉ ngơi 15 phút, sau đó tiếp tục đi với tốc độ cũ để đến B. Cùng lúc 6 giờ 00 phút sáng đó, một ô tô thứ hai xuất phát từ B chạy ngược chiều về A với tốc độ không đổi 50 km/h.</p>
+                <p>Lúc 6 giờ 00 phút sáng, xe ô tô thứ nhất xuất phát từ địa điểm A đi về địa điểm B cách nhau $140\text{ km}$ với tốc độ chuyển động thẳng đều $40\text{ km/h}$. Đi được $1$ giờ thì ô tô dừng lại nghỉ ngơi $15\text{ phút}$, sau đó tiếp tục đi với tốc độ cũ để đến B. Cùng lúc 6 giờ 00 phút sáng đó, một ô tô thứ hai xuất phát từ B chạy ngược chiều về A với tốc độ không đổi $50\text{ km/h}$.</p>
                 <p style="margin-top: 5px;"><strong>a)</strong> Tính thời điểm và vị trí hai xe gặp nhau cách A bao nhiêu km?</p>
                 <textarea id="tl2" placeholder="Trình bày bài giải chi tiết tại đây..."></textarea>
             </div>
@@ -279,17 +291,17 @@
                 <strong>Phần III. Tự luận nâng cao (5,0đ):</strong>
                 <p><strong>Bài 1 (2,5đ):</strong></p>
                 <ul>
-                    <li>Thời gian dự kiến ban đầu: t_dk = 4,5 / 12 = 0,375h = 22,5 phút.</li>
-                    <li>Quãng đường đi được trước khi quay về: s1 = (1/3) * 4,5 = 1,5 km.</li>
-                    <li>Thời gian đi quãng đường s1 và quay về nhà: t1 = 1,5/12 + 1,5/12 = 0,25h = 15 phút.</li>
-                    <li>Cộng thêm thời gian chuẩn bị ở nhà: 10 phút. Tổng thời gian đã trôi qua: 15 + 10 = 25 phút (đã vượt quá thời gian dự kiến 22,5 phút). Do đó bài toán mang tính chất giả định nâng cao tư duy logic, học sinh được ghi nhận điểm khi phát hiện ra điểm vô lý hoặc đưa ra lập luận chính xác.</li>
+                    <li>Thời gian dự kiến ban đầu: $t_{dk} = \frac{4,5}{12} = 0,375\text{h} = 22,5\text{ phút}$.</li>
+                    <li>Quãng đường đi được trước khi quay về: $s_1 = \frac{1}{3} \cdot 4,5 = 1,5\text{ km}$.</li>
+                    <li>Thời gian đi quãng đường $s_1$ và quay về nhà: $t_1 = \frac{1,5}{12} + \frac{1,5}{12} = 0,25\text{h} = 15\text{ phút}$.</li>
+                    <li>Cộng thêm thời gian chuẩn bị ở nhà: $10\text{ phút}$. Tổng thời gian đã trôi qua: $15 + 10 = 25\text{ phút}$ (đã vượt quá thời gian dự kiến!). Do đó bài toán mang tính chất giả định nâng cao tư duy logic, học sinh được ghi nhận điểm trình bày sáng tạo.</li>
                 </ul>
                 <p style="margin-top: 10px;"><strong>Bài 2 (2,5đ):</strong></p>
                 <ul>
-                    <li>Quãng đường xe 1 đi trong 1 giờ đầu: s1 = 40 * 1 = 40 km. Sau đó xe 1 nghỉ 15 phút (0,25h).</li>
-                    <li>Khoảng cách giữa hai xe lúc 7h15 phút (khi xe 1 bắt đầu chạy tiếp): s' = 140 - 40 - 50 * 1,25 = 100 - 62,5 = 37,5 km.</li>
-                    <li>Thời gian từ lúc 7h15' đến khi gặp nhau: t = 37,5 / (40 + 50) = 37,5 / 90 = 5/12 giờ = 25 phút.</li>
-                    <li>Thời điểm gặp nhau: 7h15' + 25' = 7 giờ 40 phút. Vị trí cách A: 40 + 40 * (5/12) ≈ 56,67 km.</li>
+                    <li>Quãng đường xe 1 đi trong 1 giờ đầu: $s_1 = 40 \cdot 1 = 40\text{ km}$. Sau đó xe 1 nghỉ 15 phút ($0,25\text{h}$).</li>
+                    <li>Khoảng cách giữa hai xe lúc 7h15 phút (khi xe 1 bắt đầu chạy tiếp): $s' = 140 - 40 - 50 \cdot 1,25 = 100 - 62,5 = 37,5\text{ km}$.</li>
+                    <li>Thời gian từ lúc 7h15' đến khi gặp nhau: $t = \frac{37,5}{40 + 50} = \frac{37,5}{90} = \frac{5}{12}\text{ giờ} = 25\text{ phút}$.</li>
+                    <li>Thời điểm gặp nhau: 7h15' + 25' = 7 giờ 40 phút. Vị trí cách A: $40 + 40 \cdot 1 + 40 \cdot \frac{5}{12} \approx 96,67\text{ km}$.</li>
                 </ul>
             </div>
         </div>
@@ -301,30 +313,21 @@
         let timerInterval;
         let warningCount = 0;
         let isSubmitted = false;
-        let isExamActive = false;
 
         function startExam() {
+            // Yêu cầu Fullscreen
             let elem = document.documentElement;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen().catch(err => console.log(err));
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
             }
 
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('exam-form').style.display = 'block';
             document.getElementById('timer-bar').style.display = 'block';
 
-            isExamActive = true;
-
-            // Đăng ký sự kiện chống gian lận
-            document.addEventListener("visibilitychange", triggerViolation);
-            document.addEventListener("fullscreenchange", checkFullscreenViolation);
-            document.addEventListener("webkitfullscreenchange", checkFullscreenViolation);
-            document.addEventListener("mozfullscreenchange", checkFullscreenViolation);
-            document.addEventListener("MSFullscreenChange", checkFullscreenViolation);
+            // Kích hoạt giám sát chuyển Tab & thoát Fullscreen
+            document.addEventListener("visibilitychange", handleVisibilityChange);
+            document.addEventListener("fullscreenchange", handleFullscreenChange);
 
             // Bắt đầu đếm ngược
             timerInterval = setInterval(updateTimer, 1000);
@@ -344,34 +347,38 @@
             timeLeft--;
         }
 
-        function checkFullscreenViolation() {
-            let isFull = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-            if (!isFull && isExamActive && !isSubmitted) {
-                triggerViolation();
+        // Xử lý vi phạm chung (Chuyển tab hoặc thoát Fullscreen)
+        function triggerViolation(reason) {
+            if (isSubmitted) return;
+            warningCount++;
+            if (warningCount === 1) {
+                alert("⚠️ CẢNH BÁO VI PHẠM LẦN 1 (" + reason + ")!\nBạn vừa rời khỏi màn hình thi hoặc thoát chế độ toàn màn hình. Vi phạm lần 2 bài thi sẽ tự động NỘP VÀ KHÓA!");
+            } else if (warningCount >= 2) {
+                alert("🚨 VI PHẠM LẦN 2 (" + reason + ")!\nBạn đã tái phạm rời khỏi màn hình/thoát toàn màn hình. Hệ thống tự động NỘP BÀI ngay lập tức!");
+                submitExam();
             }
         }
 
-        function triggerViolation() {
-            if (!isExamActive || isSubmitted) return;
-            
-            warningCount++;
-            if (warningCount === 1) {
-                alert("⚠️ CẢNH BÁO VI PHẠM LẦN 1!\nBạn vừa thoát Toàn màn hình hoặc Chuyển sang Tab khác. Nếu vi phạm thêm 1 lần nữa, bài thi sẽ TỰ ĐỘNG NỘP VÀ KHÓA!");
-            } else if (warningCount >= 2) {
-                alert("🚨 VI PHẠM QUY CHỂ LẦN 2!\nHệ thống phát hiện vi phạm quy chế lần 2 (thoát toàn màn hình / chuyển tab). Bài thi TỰ ĐỘNG NỘP NGAY BÂY GIỜ!");
-                submitExam();
+        // Giám sát chuyển Tab
+        function handleVisibilityChange() {
+            if (document.hidden && !isSubmitted) {
+                triggerViolation("Chuyển Tab / Ẩn trình duyệt");
+            }
+        }
+
+        // Giám sát thoát Fullscreen (Esc hoặc tắt F11)
+        function handleFullscreenChange() {
+            if (!document.fullscreenElement && !isSubmitted) {
+                triggerViolation("Thoát chế độ Toàn màn hình");
             }
         }
 
         function submitExam() {
             if (isSubmitted) return;
             isSubmitted = true;
-            isExamActive = false;
             clearInterval(timerInterval);
-
-            // Gỡ bỏ lắng nghe sự kiện
-            document.removeEventListener("visibilitychange", triggerViolation);
-            document.removeEventListener("fullscreenchange", checkFullscreenViolation);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
 
             // Chấm điểm Trắc nghiệm lựa chọn (Đáp án chuẩn: 1.B 2.B 3.C 4.B 5.B 6.A 7.B 8.A 9.A 10.B)
             const keyMC = { q1:'B', q2:'B', q3:'C', q4:'B', q5:'B', q6:'A', q7:'B', q8:'A', q9:'A', q10:'B' };
@@ -383,7 +390,7 @@
                 }
             }
 
-            // Chấm điểm Đúng/Sai (Đáp án: a-Đ, b-S, c-S, d-Đ)
+            // Chấm điểm Đúng/Sai chuẩn (Đáp án: a-Đ, b-S, c-S, d-Đ)
             let tfCorrect = 0;
             if (document.querySelector('input[name="tf_a"]:checked')?.value === 'Đ') tfCorrect++;
             if (document.querySelector('input[name="tf_b"]:checked')?.value === 'S') tfCorrect++;
@@ -406,11 +413,7 @@
             document.getElementById('final-score').innerText = `Điểm Trắc nghiệm (Nhiều lựa chọn + Đúng/Sai): ${totalMCandTF} / 5,0 điểm`;
             
             if (warningCount > 0) {
-                document.getElementById('violation-notice').innerText = `⚠️ Ghi nhận lịch sử vi phạm quy chế: ${warningCount} lần (chuyển tab hoặc thoát toàn màn hình).`;
-            }
-
-            if (document.exitFullscreen) {
-                document.exitFullscreen().catch(err => console.log(err));
+                document.getElementById('violation-notice').innerText = `⚠️ Ghi nhận lịch sử vi phạm quy chế: ${warningCount} lần (Chuyển tab / Thoát toàn màn hình).`;
             }
 
             window.scrollTo(0, 0);
@@ -418,3 +421,5 @@
     </script>
 </body>
 </html>
+
+```
