@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Kiểm Tra Giữa Kì I - KHTN 7 (Vật Lý)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f0f2f5; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        #welcome-screen { text-align: center; padding: 40px 20px; }
+        #welcome-screen h1 { color: #1a73e8; margin-bottom: 15px; font-size: 26px; }
+        #welcome-screen p { color: #5f6368; margin-bottom: 25px; font-size: 15px; }
+        .btn-start { background: #1a73e8; color: white; border: none; padding: 14px 35px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .btn-start:hover { background: #1557b0; }
+
+        .exam-header { text-align: center; border-bottom: 2px solid #e0e0e0; padding-bottom: 20px; margin-bottom: 30px; }
+        .exam-header h2 { font-size: 18px; text-transform: uppercase; color: #1a73e8; margin-bottom: 5px; }
+        .exam-header h3 { font-size: 20px; font-weight: 700; color: #202124; margin-bottom: 10px; }
+        .exam-meta { display: flex; justify-content: center; gap: 30px; font-size: 14px; color: #5f6368; font-weight: 500; }
+
+        #timer-bar { position: fixed; top: 0; left: 0; width: 100%; background: #d93025; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 16px; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
+
+        .section-title { background: #e8f0fe; color: #1a73e8; padding: 10px 15px; font-size: 16px; font-weight: 700; border-radius: 6px; margin: 30px 0 20px 0; border-left: 5px solid #1a73e8; }
+        .question-box { margin-bottom: 25px; padding: 15px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; }
+        .question-title { font-weight: 600; margin-bottom: 10px; color: #202124; }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .option-label { display: flex; align-items: center; gap: 8px; background: white; padding: 10px 12px; border: 1px solid #dcdcdc; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .option-label:hover { background: #f1f3f4; border-color: #1a73e8; }
+        .option-label input { accent-color: #1a73e8; }
+
+        .tf-row { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 15px; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 8px; }
+        .tf-options { display: flex; gap: 20px; }
+
+        textarea { width: 100%; height: 120px; padding: 12px; border: 1px solid #ccc; border-radius: 6px; margin-top: 10px; font-size: 14px; resize: vertical; }
+
+        .submit-container { text-align: center; margin-top: 40px; padding-bottom: 30px; }
+        .btn-submit { background: #188038; color: white; border: none; padding: 14px 40px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .btn-submit:hover { background: #137333; }
+
+        #result-screen { display: none; }
+        .score-card { background: #e6f4ea; border: 1px solid #34a853; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px; }
+        .score-card h2 { color: #137333; font-size: 24px; margin-bottom: 10px; }
+        .solution-box { background: #fef7e0; border-left: 4px solid #fbbc04; padding: 15px; margin-top: 10px; border-radius: 4px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div id="timer-bar">Thời gian làm bài còn lại: <span id="time-left">75:00</span></div>
+
+    <div class="container">
+        
+        <div id="welcome-screen">
+            <h1>ĐỀ KIỂM TRA GIỮA KÌ I - MÔN KHTN 7</h1>
+            <p><strong>Phần Vật lý | Thời gian: 75 phút</strong><br>Cấu trúc: 10 Trắc nghiệm nhiều lựa chọn (4,0đ) | 1 Trắc nghiệm Đúng/Sai (1,0đ) | 2 Tự luận nâng cao (5,0đ)</p>
+            <p style="color: #d93025; font-size: 13px; font-weight: 500;">⚠️ Lưu ý: Bài thi yêu cầu Toàn màn hình. Vi phạm quá 3 lần (chuyển tab / thoát F11/Esc), hệ thống sẽ TỰ ĐỘNG NỘP BÀI!</p>
+            <button class="btn-start" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
+        </div>
+
+        <div id="exam-form" style="display: none;">
+            <div class="exam-header">
+                <h2>TRƯỜNG THCS .................................</h2>
+                <h3>ĐỀ KIỂM TRA GIỮA KÌ I - NĂM HỌC 2026 - 2027</h3>
+                <div class="exam-meta">
+                    <span>Môn: Khoa học tự nhiên 7</span>
+                    <span>Thời gian làm bài: 75 phút</span>
+                </div>
+            </div>
+
+            <div class="section-title">PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN (4,0 điểm - Mỗi câu 0,4đ)</div>
+            
+            <div class="question-box">
+                <div class="question-title">Câu 1: Phương pháp tìm hiểu tự nhiên bao gồm các bước theo thứ tự nào là chuẩn xác nhất?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q1" value="A"> A. Đề xuất giả thuyết ➔ Quan sát ➔ Lập kế hoạch ➔ Thực hiện ➔ Kết luận.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="B"> B. Quan sát và đặt câu hỏi ➔ Đề xuất giả thuyết ➔ Lập kế hoạch kiểm tra ➔ Thực hiện kế hoạch ➔ Kết luận.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="C"> C. Lập kế hoạch ➔ Quan sát ➔ Đề xuất giả thuyết ➔ Thực hiện ➔ Báo cáo.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="D"> D. Quan sát ➔ Thực hiện thí nghiệm ➔ Rút ra kết luận ➔ Đề xuất giả thuyết.</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 2: Trong hệ đơn vị đo lường hợp pháp của nước ta (SI), đơn vị đo chiều dài và thời gian lần lượt là:</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q2" value="A"> A. Kilômét (km) và Giờ (h)</label>
+                    <label class="option-label"><input type="radio" name="q2" value="B"> B. Mét (m) và Giây (s)</label>
+                    <label class="option-label"><input type="radio" name="q2" value="C"> C. Xentimét (cm) và Phút (min)</label>
+                    <label class="option-label"><input type="radio" name="q2" value="D"> D. Đềximét (dm) và Giây (s)</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 3: Khi đo thể tích chất lỏng bằng bình chia độ, cách đặt mắt nào dưới đây là đúng quy tắc an toàn và chính xác?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q3" value="A"> A. Đặt mắt nhìn chếch lên trên so với mực chất lỏng trong bình.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="B"> B. Đặt mắt nhìn chếch xuống dưới so với mực chất lỏng.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="C"> C. Đặt mắt ngang với mực chất lỏng trong bình chia độ.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="D"> D. Đặt mắt ở bất kỳ vị trí nào miễn là thấy được vạch chia.</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 4: Biển báo giao thông hình tam giác đều, viền đỏ, nền vàng, có hình vẽ màu đen dùng để làm gì?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q4" value="A"> A. Biển báo cấm.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="B"> B. Biển báo nguy hiểm hoặc cảnh báo.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="C"> C. Biển hiệu lệnh phải thi hành.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="D"> D. Biển chỉ dẫn hướng đi.</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 5: Thiết bị “Súng bắn tốc độ” dùng trong giao thông hoạt động dựa trên cơ sở hiện tượng vật lý nào?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q5" value="A"> A. Sự truyền thẳng của ánh sáng.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="B"> B. Sự phản xạ sóng vô tuyến hoặc tia hồng ngoại (đo thời gian sóng phản hồi).</label>
+                    <label class="option-label"><input type="radio" name="q5" value="C"> C. Hiện tượng khúc xạ ánh sáng qua lăng kính.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="D"> D. Đo lực cản của không khí tác dụng lên xe.</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 6: Một vận động viên chạy cự ly 100m trong thời gian 10 giây. Tốc độ của vận động viên đó là:</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q6" value="A"> A. $10\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q6" value="B"> B. $1\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q6" value="C"> C. $1000\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q6" value="D"> D. $36\text{ m/s}$</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 7: Đổi tốc độ $72\text{ km/h}$ ra đơn vị mét trên giây ($\text{m/s}$) ta được kết quả là:</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q7" value="A"> A. $15\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q7" value="B"> B. $20\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q7" value="C"> C. $25\text{ m/s}$</label>
+                    <label class="option-label"><input type="radio" name="q7" value="D"> D. $30\text{ m/s}$</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 8: Trên một cung đường cao tốc có biển báo tốc độ tối đa $120\text{ km/h}$ và tối thiểu $60\text{ km/h}$. Xe nào sau đây vi phạm quy định?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q8" value="A"> A. Xe chạy với tốc độ $55\text{ km/h}$</label>
+                    <label class="option-label"><input type="radio" name="q8" value="B"> B. Xe chạy với tốc độ $80\text{ km/h}$</label>
+                    <label class="option-label"><input type="radio" name="q8" value="C"> C. Xe chạy với tốc độ $100\text{ km/h}$</label>
+                    <label class="option-label"><input type="radio" name="q8" value="D"> D. Xe chạy với tốc độ $115\text{ km/h}$</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 9: Quy tắc "3 giây" khi tham gia giao thông giúp tài xế xác định đại lượng nào an toàn giữa hai xe chạy liên tiếp?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q9" value="A"> A. Khoảng cách an toàn tối thiểu</label>
+                    <label class="option-label"><input type="radio" name="q9" value="B"> B. Thời gian nghỉ ngơi của tài xế</label>
+                    <label class="option-label"><input type="radio" name="q9" value="C"> C. Thời gian xe dừng đèn đỏ</label>
+                    <label class="option-label"><input type="radio" name="q9" value="D"> D. Nhiệt độ động cơ ô tô</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 10: Đồ thị quãng đường - thời gian ($s-t$) của một vật chuyển động thẳng đều có dạng là:</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q10" value="A"> A. Một đường cong bất kỳ.</label>
+                    <label class="option-label"><input type="radio" name="q10" value="B"> B. Một đường thẳng đi qua gốc tọa độ.</label>
+                    <label class="option-label"><input type="radio" name="q10" value="C"> C. Một đường thẳng song song với trục thời gian $t$.</label>
+                    <label class="option-label"><input type="radio" name="q10" value="D"> D. Một đường hình sin.</label>
+                </div>
+            </div>
+
+            <div class="section-title">PHẦN II. TRẮC NGHIỆM ĐÚNG / SAI (1,0 điểm)</div>
+            <div class="question-box">
+                <div class="question-title">Cho các phát biểu về tốc độ và an toàn giao thông, hãy cho biết mỗi phát biểu sau đây là Đúng hay Sai:</div>
+                
+                <div class="tf-row">
+                    <span>a) Tốc độ là đại lượng cho biết mức độ nhanh hay chậm của chuyển động.</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_a" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_a" value="S"> Sai</label>
+                    </div>
+                </div>
+                <div class="tf-row">
+                    <span>b) Khoảng cách an toàn giữa các xe trên cao tốc không phụ thuộc vào tốc độ di chuyển của xe.</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_b" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_b" value="S"> Sai</label>
+                    </div>
+                </div>
+                <div class="tf-row">
+                    <span>c) Thiết bị tốc kế (Speedometer) trên xe máy dùng để đo trực tiếp quãng đường đi được.</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_c" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_c" value="S"> Sai</label>
+                    </div>
+                </div>
+                <div class="tf-row">
+                    <span>d) Chạy xe quá tốc độ cho phép là một trong những nguyên nhân hàng đầu gây ra tai nạn giao thông.</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_d" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_d" value="S"> Sai</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">PHẦN III. TỰ LUẬN NÂNG CAO (5,0 điểm)</div>
+            
+            <div class="question-box">
+                <div class="question-title">Bài 1 (2,5 điểm):</div>
+                <p>Một học sinh đi xe đạp từ nhà đến trường trên quãng đường dài $4,5\text{ km}$. Dự kiến ban đầu bạn đó đi với tốc độ không đổi $12\text{ km/h}$. Tuy nhiên, đi được $\frac{1}{3}$ quãng đường thì chợt nhớ mình để quên cặp tài liệu ở nhà, nên bạn đó phải lập tức quay về nhà lấy rồi đi lại đến trường với tốc độ lớn hơn để kịp giờ. Biết thời gian lúc quay về và chuẩn bị mất tổng cộng $10\text{ phút}$. Hỏi trên quãng đường từ nhà quay lại trường lần sau, bạn đó phải đi với tốc độ bao nhiêu để đến trường vừa đúng thời gian dự kiến ban đầu?</p>
+                <textarea id="tl1" placeholder="Trình bày bài giải chi tiết tại đây..."></textarea>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Bài 2 (2,5 điểm):</div>
+                <p>Lúc 6 giờ 00 phút sáng, xe ô tô thứ nhất xuất phát từ địa điểm A đi về địa điểm B cách nhau $140\text{ km}$ với tốc độ chuyển động thẳng đều $40\text{ km/h}$. Đi được $1$ giờ thì ô tô dừng lại nghỉ ngơi $15\text{ phút}$, sau đó tiếp tục đi với tốc độ cũ để đến B. Cùng lúc 6 giờ 00 phút sáng đó, một ô tô thứ hai xuất phát từ B chạy ngược chiều về A với tốc độ không đổi $50\text{ km/h}$.</p>
+                <p style="margin-top: 5px;"><strong>a)</strong> Tính thời điểm và vị trí hai xe gặp nhau cách A bao nhiêu km?</p>
+                <textarea id="tl2" placeholder="Trình bày bài giải chi tiết tại đây..."></textarea>
+            </div>
+
+            <div class="submit-container">
+                <button class="btn-submit" onclick="submitExam()">NỘP BÀI THI</button>
+            </div>
+        </div>
+
+        <div id="result-screen">
+            <div class="score-card">
+                <h2>KẾT QUẢ BÀI THI GIỮA KÌ I - KHTN 7</h2>
+                <p id="final-score" style="font-size: 20px; font-weight: bold; margin: 10px 0;"></p>
+                <p id="violation-notice" style="color: #d93025; font-weight: bold;"></p>
+            </div>
+
+            <div class="section-title">HƯỚNG DẪN GIẢI & ĐÁP ÁN CHI TIẾT</div>
+            
+            <div class="question-box">
+                <strong>Phần I. Trắc nghiệm nhiều lựa chọn (4,0đ):</strong>
+                <p>1. B (0,4đ) | 2. B (0,4đ) | 3. C (0,4đ) | 4. B (0,4đ) | 5. B (0,4đ)</p>
+                <p>6. A (0,4đ) | 7. B (0,4đ) | 8. A (0,4đ) | 9. A (0,4đ) | 10. B (0,4đ)</p>
+            </div>
+
+            <div class="question-box">
+                <strong>Phần II. Trắc nghiệm Đúng / Sai (1,0đ):</strong>
+                <p>a) Đúng | b) Sai | c) Sai | d) Đúng</p>
+                <div class="solution-box">Thang điểm chấm: Đúng 4 ý = 1,0đ | Đúng 3 ý = 0,5đ | Đúng 2 ý = 0,25đ | Đúng 1 ý = 0,1đ</div>
+            </div>
+
+            <div class="question-box">
+                <strong>Phần III. Tự luận nâng cao (5,0đ):</strong>
+                <p><strong>Bài 1 (2,5đ):</strong></p>
+                <ul>
+                    <li>Thời gian dự kiến ban đầu: $t_{dk} = \frac{4,5}{12} = 0,375\text{h} = 22,5\text{ phút}$.</li>
+                    <li>Quãng đường đi được trước khi quay về: $s_1 = \frac{1}{3} \cdot 4,5 = 1,5\text{ km}$.</li>
+                    <li>Thời gian đi quãng đường $s_1$ và quay về nhà: $t_1 = \frac{1,5}{12} + \frac{1,5}{12} = 0,25\text{h} = 15\text{ phút}$.</li>
+                    <li>Cộng thêm thời gian chuẩn bị ở nhà: $10\text{ phút}$. Tổng thời gian đã trôi qua: $15 + 10 = 25\text{ phút}$ (đã vượt quá thời gian dự kiến!). Bài toán mang tính chất giả định nâng cao tư duy logic.</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Bài 2 (2,5đ):</strong></p>
+                <ul>
+                    <li>Quãng đường xe 1 đi trong 1 giờ đầu: $s_1 = 40 \cdot 1 = 40\text{ km}$. Sau đó xe 1 nghỉ 15 phút ($0,25\text{h}$).</li>
+                    <li>Khoảng cách giữa hai xe lúc 7h15 phút: $s' = 140 - 40 - 50 \cdot 1,25 = 37,5\text{ km}$.</li>
+                    <li>Thời gian từ lúc 7h15' đến khi gặp nhau: $t = \frac{37,5}{40 + 50} = \frac{5}{12}\text{ giờ} = 25\text{ phút}$.</li>
+                    <li>Thời điểm gặp nhau: 7 giờ 40 phút. Vị trí cách A: $40 + 40 \cdot \frac{5}{12} \approx 56,67\text{ km}$.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let timeLeft = 75 * 60;
+        let timerInterval;
+        let warningCount = 0;
+        let isSubmitted = false;
+
+        function requestFS() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen().catch(() => {});
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
+        function startExam() {
+            requestFS();
+
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('exam-form').style.display = 'block';
+            document.getElementById('timer-bar').style.display = 'block';
+
+            document.addEventListener("visibilitychange", handleVisibility);
+            document.addEventListener("fullscreenchange", handleFSChange);
+            document.addEventListener("webkitfullscreenchange", handleFSChange);
+            document.addEventListener("keydown", handleKeyDown);
+
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('time-left').innerText = 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Hết thời gian làm bài! Hệ thống tự động nộp bài.");
+                submitExam();
+            }
+            timeLeft--;
+        }
+
+        function triggerViolation(reason) {
+            if (isSubmitted) return;
+            warningCount++;
+            if (warningCount < 3) {
+                alert(`⚠️ CẢNH BÁO VI PHẠM LẦN ${warningCount}/3 (${reason})!\nNếu vi phạm quá 3 lần bài thi sẽ tự động NỘP VÀ KHÓA!`);
+                requestFS();
+            } else {
+                alert(`🚨 VI PHẠM QUÁ 3 LẦN (${reason})!\nHệ thống tự động NỘP BÀI ngay lập tức!`);
+                submitExam();
+            }
+        }
+
+        function handleVisibility() {
+            if (document.hidden && !isSubmitted) {
+                triggerViolation("Chuyển Tab / Rời màn hình thi");
+            }
+        }
+
+        function handleFSChange() {
+            let isFull = document.fullscreenElement || document.webkitFullscreenElement;
+            if (!isFull && !isSubmitted) {
+                triggerViolation("Thoát chế độ Toàn màn hình");
+            }
+        }
+
+        function handleKeyDown(e) {
+            if (isSubmitted) return;
+            if (e.key === "Escape" || e.key === "F11" || e.keyCode === 27 || e.keyCode === 122) {
+                triggerViolation("Bấm phím Esc / F11");
+            }
+        }
+
+        function submitExam() {
+            if (isSubmitted) return;
+            isSubmitted = true;
+            clearInterval(timerInterval);
+            document.removeEventListener("visibilitychange", handleVisibility);
+            document.removeEventListener("fullscreenchange", handleFSChange);
+            document.removeEventListener("webkitfullscreenchange", handleFSChange);
+            document.removeEventListener("keydown", handleKeyDown);
+
+            const keyMC = { q1:'B', q2:'B', q3:'C', q4:'B', q5:'B', q6:'A', q7:'B', q8:'A', q9:'A', q10:'B' };
+            let mcScore = 0;
+            for (let q in keyMC) {
+                let selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === keyMC[q]) mcScore += 0.4;
+            }
+
+            let tfCorrect = 0;
+            if (document.querySelector('input[name="tf_a"]:checked')?.value === 'Đ') tfCorrect++;
+            if (document.querySelector('input[name="tf_b"]:checked')?.value === 'S') tfCorrect++;
+            if (document.querySelector('input[name="tf_c"]:checked')?.value === 'S') tfCorrect++;
+            if (document.querySelector('input[name="tf_d"]:checked')?.value === 'Đ') tfCorrect++;
+
+            let tfScore = 0;
+            if (tfCorrect === 1) tfScore = 0.1;
+            else if (tfCorrect === 2) tfScore = 0.25;
+            else if (tfCorrect === 3) tfScore = 0.5;
+            else if (tfCorrect === 4) tfScore = 1.0;
+
+            let totalMCandTF = (mcScore + tfScore).toFixed(2);
+
+            document.getElementById('exam-form').style.display = 'none';
+            document.getElementById('timer-bar').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            document.getElementById('final-score').innerText = `Điểm Trắc nghiệm (Nhiều lựa chọn + Đúng/Sai): ${totalMCandTF} / 5,0 điểm`;
+            
+            if (warningCount > 0) {
+                document.getElementById('violation-notice').innerText = `⚠️ Lịch sử ghi nhận vi phạm quy chế: ${warningCount} lần.`;
+            }
+
+            if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
