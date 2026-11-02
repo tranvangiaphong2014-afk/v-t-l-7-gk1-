@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Kiểm Tra Giữa Kì I - KHTN 7 (Phần Sinh Học)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f0f2f5; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        #welcome-screen { text-align: center; padding: 40px 20px; }
+        #welcome-screen h1 { color: #1a73e8; margin-bottom: 15px; font-size: 26px; }
+        #welcome-screen p { color: #5f6368; margin-bottom: 25px; font-size: 15px; }
+        .btn-start { background: #1a73e8; color: white; border: none; padding: 14px 35px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .btn-start:hover { background: #1557b0; }
+
+        .exam-header { text-align: center; border-bottom: 2px solid #e0e0e0; padding-bottom: 20px; margin-bottom: 30px; }
+        .exam-header h2 { font-size: 18px; text-transform: uppercase; color: #1a73e8; margin-bottom: 5px; }
+        .exam-header h3 { font-size: 20px; font-weight: 700; color: #202124; margin-bottom: 10px; }
+        .exam-meta { display: flex; justify-content: center; gap: 30px; font-size: 14px; color: #5f6368; font-weight: 500; }
+
+        #timer-bar { position: fixed; top: 0; left: 0; width: 100%; background: #d93025; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 16px; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
+
+        .section-title { background: #e8f0fe; color: #1a73e8; padding: 10px 15px; font-size: 16px; font-weight: 700; border-radius: 6px; margin: 30px 0 20px 0; border-left: 5px solid #1a73e8; }
+        .question-box { margin-bottom: 25px; padding: 15px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; }
+        .question-title { font-weight: 600; margin-bottom: 10px; color: #202124; }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .option-label { display: flex; align-items: center; gap: 8px; background: white; padding: 10px 12px; border: 1px solid #dcdcdc; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .option-label:hover { background: #f1f3f4; border-color: #1a73e8; }
+        .option-label input { accent-color: #1a73e8; }
+
+        .tf-row { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 15px; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 8px; }
+        .tf-options { display: flex; gap: 20px; }
+
+        textarea { width: 100%; height: 120px; padding: 12px; border: 1px solid #ccc; border-radius: 6px; margin-top: 10px; font-size: 14px; resize: vertical; }
+
+        .submit-container { text-align: center; margin-top: 40px; padding-bottom: 30px; }
+        .btn-submit { background: #188038; color: white; border: none; padding: 14px 40px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .btn-submit:hover { background: #137333; }
+
+        #result-screen { display: none; }
+        .score-card { background: #e6f4ea; border: 1px solid #34a853; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px; }
+        .score-card h2 { color: #137333; font-size: 24px; margin-bottom: 10px; }
+        
+        /* Màn hình khóa vi phạm */
+        #lock-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); color: white; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        #lock-screen h1 { color: #ea4335; font-size: 32px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div id="timer-bar">Thời gian làm bài còn lại: <span id="time-left">75:00</span></div>
+
+    <!-- MÀN HÌNH KHÓA KHI VI PHẠM QUÁ 3 LẦN -->
+    <div id="lock-screen">
+        <h1>🔒 BÀI THI ĐÃ BỊ KHÓA!</h1>
+        <p style="font-size: 18px; margin-bottom: 10px;">Bạn đã vi phạm quy chế (nhấn F11 hoặc chuyển tab/rời khỏi màn hình) quá 3 lần.</p>
+        <p style="font-size: 16px; color: #fbbc04;">Kết quả bài làm của bạn bị hủy và ghi nhận: <strong style="color: #ea4335;">0,0 điểm</strong>.</p>
+    </div>
+
+    <div class="container">
+        
+        <div id="welcome-screen">
+            <h1>ĐỀ KIỂM TRA GIỮA KÌ I - KHTN 7 (SINH HỌC)</h1>
+            <p><strong>Thời gian: 75 phút | Thang điểm: 10,0 điểm</strong><br>Cấu trúc: Trắc nghiệm nhiều lựa chọn (3,5đ) | Trắc nghiệm Đúng/Sai Bài 28 (1,0đ) | Tự luận (5,5đ)</p>
+            <p style="color: #d93025; font-size: 13px; font-weight: 500;">⚠️ LƯU Ý: Khi bấm Bắt đầu, hệ thống sẽ bật toàn màn hình và kích hoạt bộ đếm chống gian lận (Giới hạn tối đa 3 lần chuyển tab hoặc nhấn F11).</p>
+            <button class="btn-start" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
+        </div>
+
+        <div id="exam-form" style="display: none;">
+            <div class="exam-header">
+                <h2>TRƯỜNG THCS .................................</h2>
+                <h3>ĐỀ KIỂM TRA GIỮA KÌ I - NĂM HỌC 2026 - 2027</h3>
+                <div class="exam-meta">
+                    <span>Môn: Khoa học tự nhiên 7 (Phần Sinh học)</span>
+                    <span>Thời gian làm bài: 75 phút</span>
+                </div>
+            </div>
+
+            <!-- PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (3,5 điểm - 14 câu, 0,25đ/câu) -->
+            <div class="section-title">PHẦN I. TRẮC NGHIỆM KHÁCH QUAN (3,5 điểm - Mỗi câu đúng được 0,25đ)</div>
+            
+            <div class="question-box">
+                <div class="question-title">Câu 1 (Bài 21): Trong quá trình quang hợp ở cây xanh, năng lượng ánh sáng mặt trời được tích lũy dưới dạng nào sau đây?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q1" value="A"> A. Cơ năng</label>
+                    <label class="option-label"><input type="radio" name="q1" value="B"> B. Hóa năng</label>
+                    <label class="option-label"><input type="radio" name="q1" value="C"> C. Nhiệt năng</label>
+                    <label class="option-label"><input type="radio" name="q1" value="D"> D. Quang năng</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 2 (Bài 24): Cơ quan chính thực hiện chức năng hô hấp tế bào ở thực vật và động vật là:</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q2" value="A"> A. Lục lạp</label>
+                    <label class="option-label"><input type="radio" name="q2" value="B"> B. Ti thể</label>
+                    <label class="option-label"><input type="radio" name="q2" value="C"> C. Nhân tế bào</label>
+                    <label class="option-label"><input type="radio" name="q2" value="D"> D. Không bào</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 3 (Bài 25, 26): Trao đổi khí ở thực vật diễn ra chủ yếu qua cấu trúc nào của lá?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q3" value="A"> A. Khí khổng</label>
+                    <label class="option-label"><input type="radio" name="q3" value="B"> B. Bề mặt gân lá</label>
+                    <label class="option-label"><input type="radio" name="q3" value="C"> C. Lớp cutin</label>
+                    <label class="option-label"><input type="radio" name="q3" value="D"> D. Lông hút</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 4 (Bài 25, 26): Ở người và động vật có vú, sự trao đổi khí giữa cơ thể với môi trường diễn ra tại đâu?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q4" value="A"> A. Phế quản</label>
+                    <label class="option-label"><input type="radio" name="q4" value="B"> B. Khí quản</label>
+                    <label class="option-label"><input type="radio" name="q4" value="C"> C. Phế nang</label>
+                    <label class="option-label"><input type="radio" name="q4" value="D"> D. Thanh quản</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 5 (Bài 21): Chất nào sau đây không phải là sản phẩm của quá trình quang hợp?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q5" value="A"> A. Khí oxygen ($O_2$)</label>
+                    <label class="option-label"><input type="radio" name="q5" value="B"> B. Glucose ($C_6H_{12}O_6$)</label>
+                    <label class="option-label"><input type="radio" name="q5" value="C"> C. Khí carbon dioxide ($CO_2$)</label>
+                    <label class="option-label"><input type="radio" name="q5" value="D"> D. Nước</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 6 (Bài 24): Quá trình hô hấp tế bào giải phóng năng lượng dưới dạng chủ yếu nào để cơ thể sử dụng?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q6" value="A"> A. ATP</label>
+                    <label class="option-label"><input type="radio" name="q6" value="B"> B. ADP</label>
+                    <label class="option-label"><input type="radio" name="q6" value="C"> C. Nhiệt năng thừa</label>
+                    <label class="option-label"><input type="radio" name="q6" value="D"> D. Điện năng</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 7 (Bài 25, 26): Sự mở của khí khổng phụ thuộc chủ yếu vào yếu tố nào sau đây?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q7" value="A"> A. Lượng nước trong tế bào hạt đậu của khí khổng</label>
+                    <label class="option-label"><input type="radio" name="q7" value="B"> B. Độ dày của phiến lá</label>
+                    <label class="option-label"><input type="radio" name="q7" value="C"> C. Số lượng gân lá</label>
+                    <label class="option-label"><input type="radio" name="q7" value="D"> D. Kích thước của rễ cây</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 8 (Bài 21 - ý i8): Sắc tố quang hợp chính ở cây xanh có khả năng hấp thụ năng lượng ánh sáng là:</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q8" value="A"> A. Carotenoid</label>
+                    <label class="option-label"><input type="radio" name="q8" value="B"> B. Diệp lục (Chlorophyll)</label>
+                    <label class="option-label"><input type="radio" name="q8" value="C"> C. Anthocyanin</label>
+                    <label class="option-label"><input type="radio" name="q8" value="D"> D. Xanthophyll</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 9 (Bài 24 - ý i9): Khi cơ thể vận động mạnh (như chạy nhanh, đá bóng), cường độ hô hấp tế bào sẽ thay đổi như thế nào?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q9" value="A"> A. Tăng lên để đáp ứng nhu cầu năng lượng cao</label>
+                    <label class="option-label"><input type="radio" name="q9" value="B"> B. Giảm xuống để tiết kiệm năng lượng</label>
+                    <label class="option-label"><input type="radio" name="q9" value="C"> C. Ngừng hoàn toàn</label>
+                    <label class="option-label"><input type="radio" name="q9" value="D"> D. Không thay đổi</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 10 (Bài 25, 26 - ý i10): Khi ta hít vào, hoạt động của cơ hoành và cơ liên sườn diễn ra như thế nào?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q10" value="A"> A. Cơ hoành nâng lên, cơ liên sườn giãn</label>
+                    <label class="option-label"><input type="radio" name="q10" value="B"> B. Cơ hoành co hạ xuống, cơ liên sườn co làm thể tích lồng ngực tăng</label>
+                    <label class="option-label"><input type="radio" name="q10" value="C"> C. Cả hai cơ đều thả lỏng hoàn toàn</label>
+                    <label class="option-label"><input type="radio" name="q10" value="D"> D. Lồng ngực thu nhỏ lại để đẩy không khí ra</label>
+                </div>
+            </div>
+
+            <!-- Các câu bổ sung để đủ 14 câu trắc nghiệm (3.5đ) -->
+            <div class="question-box">
+                <div class="question-title">Câu 11 (Mở rộng): Phát biểu nào sau đây đúng khi nói về mối quan hệ giữa quang hợp và hô hấp tế bào?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q11" value="A"> A. Hai quá trình độc lập, không liên quan nhau.</label>
+                    <label class="option-label"><input type="radio" name="q11" value="B"> B. Sản phẩm của quang hợp là nguyên liệu cho hô hấp tế bào và ngược lại.</label>
+                    <label class="option-label"><input type="radio" name="q11" value="C"> C. Hô hấp tế bào sinh ra chất hữu cơ nuôi cây quang hợp.</label>
+                    <label class="option-label"><input type="radio" name="q11" value="D"> D. Quang hợp chỉ diễn ra ban đêm, hô hấp diễn ra ban ngày.</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 12 (Mở rộng): Bộ phận nào của rễ cây thực hiện chức năng chủ yếu hấp thụ nước và muối khoáng?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q12" value="A"> A. Miền sinh trưởng</label>
+                    <label class="option-label"><input type="radio" name="q12" value="B"> B. Miền chóp rễ</label>
+                    <label class="option-label"><input type="radio" name="q12" value="C"> C. Miền lông hút</label>
+                    <label class="option-label"><input type="radio" name="q12" value="D"> D. Đỉnh sinh trưởng</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 13 (Mở rộng): Mạch gỗ trong thân cây có chức năng chính là gì?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q13" value="A"> A. Vận chuyển nước và muối khoáng từ rễ lên thân và lá.</label>
+                    <label class="option-label"><input type="radio" name="q13" value="B"> B. Vận chuyển chất hữu cơ từ lá xuống các cơ quan.</label>
+                    <label class="option-label"><input type="radio" name="q13" value="C"> C. Dự trữ chất dinh dưỡng cho cây.</label>
+                    <label class="option-label"><input type="radio" name="q13" value="D"> D. Bảo vệ các tế bào bên trong thân.</label>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Câu 14 (Mở rộng): Bề mặt trao đổi khí hiệu quả ở động vật phải đảm bảo yếu tố nào?</div>
+                <div class="options-grid">
+                    <label class="option-label"><input type="radio" name="q14" value="A"> A. Có diện tích bề mặt lớn và mỏng, ẩm ướt.</label>
+                    <label class="option-label"><input type="radio" name="q14" value="B"> B. Dày và khô ráo để tránh mất nước.</label>
+                    <label class="option-label"><input type="radio" name="q14" value="C"> C. Không cần hệ thống mao mạch máu.</label>
+                    <label class="option-label"><input type="radio" name="q14" value="D"> D. Tọa lạc sâu bên trong cơ thể hoàn toàn.</label>
+                </div>
+            </div>
+
+
+            <!-- PHẦN II: ĐÚNG / SAI - BÀI 28 (1,0 điểm - 4 ý iia, iib, iic, iid) -->
+            <div class="section-title">PHẦN II. TRẮC NGHIỆM ĐÚNG / SAI (1,0 điểm - Bài 28)</div>
+            <div class="question-box">
+                <div class="question-title">Câu 15 (Bài 28): Khi tìm hiểu về trao đổi chất và chuyển hóa năng lượng ở thực vật, xét tính Đúng/Sai của các phát biểu sau:</div>
+                
+                <div class="tf-row">
+                    <span>iia) Quang hợp và hô hấp tế bào là hai quá trình có mối quan hệ mật thiết, hỗ trợ lẫn nhau trong tế bào thực vật.</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_a" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_a" value="S"> Sai</label>
+                    </div>
+                </div>
+                <div class="tf-row">
+                    <span>iib) Nồng độ khí carbon dioxide ($CO_2$) quá cao hoặc quá thấp đều không ảnh hưởng gì đến cường độ quang hợp.</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_b" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_b" value="S"> Sai</label>
+                    </div>
+                </div>
+                <div class="tf-row">
+                    <span>iic) Thường xuyên xới đất tơi xốp cho cây trồng giúp rễ thoáng khí, tăng cường hô hấp và thúc đẩy hút nước, muối khoáng.</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_c" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_c" value="S"> Sai</label>
+                    </div>
+                </div>
+                <div class="tf-row">
+                    <span>iid) Cây trồng bị ngập úng lâu ngày thường bị thối rễ và chết do rễ không thể hô hấp được trong điều kiện thiếu oxygen ($O_2$).</span>
+                    <div class="tf-options">
+                        <label><input type="radio" name="tf_d" value="Đ"> Đúng</label>
+                        <label><input type="radio" name="tf_d" value="S"> Sai</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- PHẦN III: TỰ LUẬN (5,5 điểm) -->
+            <div class="section-title">PHẦN III. TỰ LUẬN (5,5 điểm)</div>
+            
+            <!-- Bài 22: tl4a (0,75đ), tl4b (0,5đ) -->
+            <div class="question-box">
+                <div class="question-title">Câu 16 (Bài 22) (1,25 điểm):</div>
+                <p><strong>a) (0,75đ)</strong> Viết phương trình tổng quát của quá trình quang hợp ở cây xanh (dạng chữ). Chỉ rõ nguyên liệu và sản phẩm của quá trình đó.</p>
+                <textarea id="tl4a" placeholder="Trình bày phần 16a..."></textarea>
+                
+                <p style="margin-top: 15px;"><strong>b) (0,5đ)</strong> Vì sao vào những ngày nắng nóng, đứng dưới bóng cây xanh ta lại có cảm giác mát mẻ hơn so với đứng dưới mái tôn?</p>
+                <textarea id="tl4b" placeholder="Trình bày phần 16b..."></textarea>
+            </div>
+
+            <!-- Bài 24: tl5 (0,5đ) -->
+            <div class="question-box">
+                <div class="question-title">Câu 17 (Bài 24 - tl5) (0,5 điểm):</div>
+                <p>Giải thích vì sao ban đêm người ta thường không để nhiều chậu hoa hoặc cây cảnh lớn trong phòng ngủ đóng kín cửa?</p>
+                <textarea id="tl5" placeholder="Trình bày câu trả lời chi tiết..."></textarea>
+            </div>
+
+            <!-- Bài 27: tl6 (1,0 điểm) -->
+            <div class="question-box">
+                <div class="question-title">Câu 18 (Bài 27 - tl6) (1,0 điểm):</div>
+                <p>Trình bày con đường hấp thụ, vận chuyển nước và muối khoáng từ đất vào rễ rồi lên các bộ phận của cây. Nêu rõ chức năng của mạch gỗ và mạch rây.</p>
+                <textarea id="tl6" placeholder="Trình bày con đường vận chuyển và vai trò mạch gỗ, mạch rây..."></textarea>
+            </div>
+
+            <!-- Câu tự luận tổng hợp nâng cao bổ sung (2,75 điểm) để tròn 10 điểm tổng bài thi -->
+            <div class="question-box">
+                <div class="question-title">Câu 19 (Câu hỏi tổng hợp vận dụng cao) (2,75 điểm):</div>
+                <p><strong>a) (1,25đ)</strong> Tại sao khi trồng cây ở vùng đất trũng, nếu gặp mưa lớn kéo dài gây ngập úng mà không kịp tháo nước thì cây có nguy cơ bị héo và chết? Hãy đề xuất 2 biện pháp khắc phục hiện tượng ngập úng.</p>
+                <textarea id="tl_extra_a" placeholder="Trình bày ý a..."></textarea>
+
+                <p style="margin-top: 15px;"><strong>b) (1,5đ)</strong> Việc thường xuyên tập luyện thể dục thể thao (chạy bộ, bơi lội...) có ý nghĩa như thế nào đối với dung tích sống và hệ hô hấp của con người?</p>
+                <textarea id="tl_extra_b" placeholder="Trình bày ý b..."></textarea>
+            </div>
+
+            <div class="submit-container">
+                <button class="btn-submit" onclick="submitExam()">NỘP BÀI THI</button>
+            </div>
+        </div>
+
+        <!-- MÀN HÌNH KẾT QUẢ -->
+        <div id="result-screen">
+            <div class="score-card">
+                <h2>KẾT QUẢ BÀI THI GIỮA KÌ I - KHTN 7 (SINH HỌC)</h2>
+                <p id="final-score" style="font-size: 20px; font-weight: bold; margin: 10px 0;"></p>
+                <p id="violation-notice" style="color: #d93025; font-weight: bold;"></p>
+            </div>
+
+            <div class="section-title">HƯỚNG DẪN ĐÁP ÁN THAM KHẢO</div>
+            <div class="question-box">
+                <strong>Phần I & II (Trắc nghiệm):</strong> Hệ thống đã tự động chấm điểm khách quan.
+                <p style="margin-top: 8px;">• Đáp án trắc nghiệm nhiều lựa chọn: 1.B, 2.B, 3.A, 4.C, 5.C, 6.A, 7.A, 8.B, 9.A, 10.B, 11.B, 12.C, 13.A, 14.A.</p>
+                <p>• Đáp án Đúng/Sai (Bài 28): iia - Đúng, iib - Sai, iic - Đúng, iid - Đúng.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let timeLeft = 75 * 60;
+        let timerInterval;
+        let warningCount = 0;
+        let isSubmitted = false;
+        const maxViolations = 3;
+
+        function startExam() {
+            // Chuyển toàn màn hình
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => console.log(err));
+            }
+
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('exam-form').style.display = 'block';
+            document.getElementById('timer-bar').style.display = 'block';
+
+            // Kích hoạt giám sát chống gian lận
+            document.addEventListener("visibilitychange", handleVisibilityChange);
+            window.addEventListener("blur", handleBlurWindow);
+            window.addEventListener("keydown", handleKeyDown);
+
+            // Bắt đầu đếm ngược thời gian
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('time-left').innerText = 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Hết thời gian làm bài! Hệ thống tự động nộp bài.");
+                submitExam();
+            }
+            timeLeft--;
+        }
+
+        // Chống bấm F11 thủ công thoát chế độ màn hình hoặc can thiệp
+        function handleKeyDown(e) {
+            if (e.key === 'F11') {
+                e.preventDefault();
+                triggerViolation("Phát hiện phím F11 bị chặn");
+            }
+        }
+
+        // Chống chuyển tab
+        function handleVisibilityChange() {
+            if (document.hidden && !isSubmitted) {
+                triggerViolation("Phát hiện chuyển tab hoặc rời khỏi trang");
+            }
+        }
+
+        // Chống chuyển sang ứng dụng khác (mất tiêu điểm cửa sổ)
+        function handleBlurWindow() {
+            if (!isSubmitted) {
+                triggerViolation("Phát hiện chuyển sang cửa sổ/ứng dụng khác");
+            }
+        }
+
+        function triggerViolation(reason) {
+            if (isSubmitted) return;
+            warningCount++;
+            
+            if (warningCount >= maxViolations) {
+                lockExamDueToViolations();
+            } else {
+                alert(`⚠️ CẢNH BÁO VI PHẠM LẦN ${warningCount}/3!\nLý do: ${reason}.\nNếu vi phạm đủ ${maxViolations} lần, bài thi sẽ bị KHÓA và tính 0 điểm!`);
+            }
+        }
+
+        function lockExamDueToViolations() {
+            isSubmitted = true;
+            clearInterval(timerInterval);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            window.removeEventListener("blur", handleBlurWindow);
+            window.removeEventListener("keydown", handleKeyDown);
+
+            document.getElementById('exam-form').style.display = 'none';
+            document.getElementById('timer-bar').style.display = 'none';
+            document.getElementById('lock-screen').style.display = 'flex';
+        }
+
+        function submitExam() {
+            if (isSubmitted) return;
+            isSubmitted = true;
+            clearInterval(timerInterval);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            window.removeEventListener("blur", handleBlurWindow);
+            window.removeEventListener("keydown", handleKeyDown);
+
+            // Chấm điểm Trắc nghiệm nhiều lựa chọn (3.5 điểm - 14 câu)
+            const keyMC = { 
+                q1:'B', q2:'B', q3:'A', q4:'C', q5:'C', 
+                q6:'A', q7:'A', q8:'B', q9:'A', q10:'B', 
+                q11:'B', q12:'C', q13:'A', q14:'A' 
+            };
+            let mcScore = 0;
+            for (let q in keyMC) {
+                let selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === keyMC[q]) {
+                    mcScore += 0.25;
+                }
+            }
+
+            // Chấm điểm Trắc nghiệm Đúng/Sai Bài 28 (1.0 điểm - 4 ý iia, iib, iic, iid)
+            let tfCorrect = 0;
+            if (document.querySelector('input[name="tf_a"]:checked')?.value === 'Đ') tfCorrect++;
+            if (document.querySelector('input[name="tf_b"]:checked')?.value === 'S') tfCorrect++;
+            if (document.querySelector('input[name="tf_c"]:checked')?.value === 'Đ') tfCorrect++;
+            if (document.querySelector('input[name="tf_d"]:checked')?.value === 'Đ') tfCorrect++;
+
+            let tfScore = 0;
+            if (tfCorrect === 1) tfScore = 0.25;
+            else if (tfCorrect === 2) tfScore = 0.5;
+            else if (tfCorrect === 3) tfScore = 0.75;
+            else if (tfCorrect === 4) tfScore = 1.0;
+
+            let totalMCandTF = (mcScore + tfScore).toFixed(2);
+
+            // Hiển thị màn hình kết quả
+            document.getElementById('exam-form').style.display = 'none';
+            document.getElementById('timer-bar').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            document.getElementById('final-score').innerText = `Điểm Trắc nghiệm tự động (Phần I & II): ${totalMCandTF} / 4,5 điểm (Phần Tự luận 5,5đ giáo viên sẽ chấm trực tiếp).`;
+            
+            if (warningCount > 0) {
+                document.getElementById('violation-notice').innerText = `⚠️ Lưu ý lịch sử thi: Bạn đã vi phạm ${warningCount} lần quy chế (chuyển tab/nhấn F11).`;
+            }
+
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
